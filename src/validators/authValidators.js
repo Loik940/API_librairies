@@ -1,31 +1,31 @@
-﻿const { body } = require('express-validator');
+const { body } = require('express-validator');
 
 const registerValidation = [
   body('name')
     .trim()
-    .notEmpty().withMessage('Le nom est obligatoire')
-    .isLength({ min: 2 }).withMessage('Le nom doit contenir au moins 2 caracteres'),
+    .notEmpty().withMessage('Name is required')
+    .isLength({ min: 2 }).withMessage('Name must be at least 2 characters'),
 
   body('email')
     .trim()
-    .notEmpty().withMessage('L adresse email est obligatoire')
-    .isEmail().withMessage('Veuillez fournir une adresse email valide')
+    .notEmpty().withMessage('Email is required')
+    .isEmail().withMessage('Please provide a valid email address')
     .normalizeEmail(),
 
   body('password')
-    .notEmpty().withMessage('Le mot de passe est obligatoire')
-    .isLength({ min: 8 }).withMessage('Le mot de passe doit contenir au moins 8 caracteres'),
+    .notEmpty().withMessage('Password is required')
+    .isLength({ min: 8 }).withMessage('Password must be at least 8 characters'),
 ];
 
 const loginValidation = [
   body('email')
     .trim()
-    .notEmpty().withMessage('L adresse email est obligatoire')
-    .isEmail().withMessage('Veuillez fournir une adresse email valide')
+    .notEmpty().withMessage('Email is required')
+    .isEmail().withMessage('Please provide a valid email address')
     .normalizeEmail(),
 
   body('password')
-    .notEmpty().withMessage('Le mot de passe est obligatoire'),
+    .notEmpty().withMessage('Password is required'),
 ];
 
 module.exports = {

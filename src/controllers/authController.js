@@ -1,4 +1,4 @@
-﻿const { validationResult } = require('express-validator');
+const { validationResult } = require('express-validator');
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -24,7 +24,7 @@ const register = async (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(400).json({
         success: false,
-        message: 'La validation a echoue',
+        message: 'Validation failed',
         data: errors.array(),
       });
     }
@@ -36,7 +36,7 @@ const register = async (req, res) => {
     if (!name || !email || !password) {
       return res.status(400).json({
         success: false,
-        message: 'Champs obligatoires manquants',
+        message: 'Required fields are missing',
       });
     }
 
@@ -54,7 +54,7 @@ const register = async (req, res) => {
 
     return res.status(201).json({
       success: true,
-      message: 'Utilisateur cree avec succes',
+      message: 'User created successfully',
       data: {
         token,
         user: toUserData(user),
@@ -64,13 +64,13 @@ const register = async (req, res) => {
     if (error.code === 11000) {
       return res.status(409).json({
         success: false,
-        message: 'Impossible de creer ce compte',
+        message: 'Unable to create account',
       });
     }
 
     return res.status(500).json({
       success: false,
-      message: 'Erreur serveur',
+      message: 'Server error',
     });
   }
 };
@@ -81,7 +81,7 @@ const login = async (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(400).json({
         success: false,
-        message: 'La validation a echoue',
+        message: 'Validation failed',
         data: errors.array(),
       });
     }
@@ -92,7 +92,7 @@ const login = async (req, res) => {
     if (!email || !password) {
       return res.status(400).json({
         success: false,
-        message: 'Champs obligatoires manquants',
+        message: 'Required fields are missing',
       });
     }
 
@@ -101,7 +101,7 @@ const login = async (req, res) => {
     if (!user) {
       return res.status(401).json({
         success: false,
-        message: 'Identifiants invalides',
+        message: 'Invalid credentials',
       });
     }
 
@@ -110,7 +110,7 @@ const login = async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({
         success: false,
-        message: 'Identifiants invalides',
+        message: 'Invalid credentials',
       });
     }
 
@@ -118,7 +118,7 @@ const login = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: 'La connexion a réussie',
+      message: 'Login successful',
       data: {
         token,
         user: toUserData(user),
@@ -127,7 +127,7 @@ const login = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: 'Erreur serveur',
+      message: 'Server error',
     });
   }
 };
@@ -139,7 +139,7 @@ const me = async (req, res) => {
     if (!userId) {
       return res.status(401).json({
         success: false,
-        message: 'authentifiez vous',
+        message: 'Unauthorized access',
       });
     }
 
@@ -148,13 +148,13 @@ const me = async (req, res) => {
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: 'Utilisateur introuvable',
+        message: 'User not found',
       });
     }
 
     return res.status(200).json({
       success: true,
-      message: 'Utilisateur courant',
+      message: 'Current user',
       data: {
         user: toUserData(user),
       },
@@ -162,7 +162,7 @@ const me = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: 'Erreur serveur',
+      message: 'Server error',
     });
   }
 };
@@ -172,3 +172,4 @@ module.exports = {
   login,
   me,
 };
+

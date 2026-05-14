@@ -1,7 +1,7 @@
-﻿const notFound = (req, res) => {
+const notFound = (req, res) => {
   return res.status(404).json({
     success: false,
-    message: 'Route introuvable',
+    message: 'Route not found',
   });
 };
 
@@ -10,7 +10,7 @@ const errorHandler = (err, req, res, next) => {
 
   return res.status(statusCode).json({
     success: false,
-    message: err.message || 'Erreur serveur',
+    message: err.message || 'Server error',
   });
 };
 

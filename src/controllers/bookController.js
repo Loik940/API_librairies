@@ -1,4 +1,4 @@
-﻿const { validationResult } = require('express-validator');
+const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
 const Book = require('../models/Book');
 
@@ -17,13 +17,13 @@ const getBooks = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: 'Tous les livres sont récupérer avec succes',
+      message: 'Books fetched successfully',
       data: { books },
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: 'Erreur serveur',
+      message: 'Server error',
     });
   }
 };
@@ -35,7 +35,7 @@ const getBookById = async (req, res) => {
     if (!isValidObjectId(id)) {
       return res.status(400).json({
         success: false,
-        message: 'Identifiant invalide',
+        message: 'Invalid identifier',
       });
     }
 
@@ -44,19 +44,19 @@ const getBookById = async (req, res) => {
     if (!book) {
       return res.status(404).json({
         success: false,
-        message: 'Livre introuvable',
+        message: 'Book not found',
       });
     }
 
     return res.status(200).json({
       success: true,
-      message: 'Livre recupere avec succes',
+      message: 'Book fetched successfully',
       data: { book },
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: 'Erreur serveur',
+      message: 'Server error',
     });
   }
 };
@@ -67,7 +67,7 @@ const createBook = async (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(400).json({
         success: false,
-        message: 'La validation a echoue',
+        message: 'Validation failed',
         data: errors.array(),
       });
     }
@@ -77,7 +77,7 @@ const createBook = async (req, res) => {
     if (!req.user?.id) {
       return res.status(401).json({
         success: false,
-        message: 'Authentifiez ou connecter vous',
+        message: 'Unauthorized access',
       });
     }
 
@@ -91,20 +91,20 @@ const createBook = async (req, res) => {
 
     return res.status(201).json({
       success: true,
-      message: 'Livre cree avec succes',
+      message: 'Book created successfully',
       data: { book },
     });
   } catch (error) {
     if (error.code === 11000) {
       return res.status(409).json({
         success: false,
-        message: 'ISBN deja utilise',
+        message: 'ISBN already in use',
       });
     }
 
     return res.status(500).json({
       success: false,
-      message: 'Erreur serveur',
+      message: 'Server error',
     });
   }
 };
@@ -115,7 +115,7 @@ const updateBook = async (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(400).json({
         success: false,
-        message: 'La validation a echoue',
+        message: 'Validation failed',
         data: errors.array(),
       });
     }
@@ -125,7 +125,7 @@ const updateBook = async (req, res) => {
     if (!isValidObjectId(id)) {
       return res.status(400).json({
         success: false,
-        message: 'Identifiant invalide',
+        message: 'Invalid identifier',
       });
     }
 
@@ -134,14 +134,14 @@ const updateBook = async (req, res) => {
     if (!book) {
       return res.status(404).json({
         success: false,
-        message: 'Livre introuvable',
+        message: 'Book not found',
       });
     }
 
     if (!isOwnerOrAdmin(book, req.user)) {
       return res.status(403).json({
         success: false,
-        message: 'Action interdite',
+        message: 'Action forbidden',
       });
     }
 
@@ -156,20 +156,20 @@ const updateBook = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: 'Livre mis a jour avec succes',
+      message: 'Book updated successfully',
       data: { book },
     });
   } catch (error) {
     if (error.code === 11000) {
       return res.status(409).json({
         success: false,
-        message: 'cet isbn est utlisé',
+        message: 'ISBN already in use',
       });
     }
 
     return res.status(500).json({
       success: false,
-      message: 'Erreur serveur',
+      message: 'Server error',
     });
   }
 };
@@ -181,7 +181,7 @@ const deleteBook = async (req, res) => {
     if (!isValidObjectId(id)) {
       return res.status(400).json({
         success: false,
-        message: 'Identifiant invalide',
+        message: 'Invalid identifier',
       });
     }
 
@@ -190,14 +190,14 @@ const deleteBook = async (req, res) => {
     if (!book) {
       return res.status(404).json({
         success: false,
-        message: 'Livre introuvable',
+        message: 'Book not found',
       });
     }
 
     if (!isOwnerOrAdmin(book, req.user)) {
       return res.status(403).json({
         success: false,
-        message: 'Action interdite',
+        message: 'Action forbidden',
       });
     }
 
@@ -205,13 +205,13 @@ const deleteBook = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: 'Livre supprime avec succes',
+      message: 'Book deleted successfully',
       data: { book },
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: 'Erreur serveur',
+      message: 'Server error',
     });
   }
 };
@@ -223,3 +223,4 @@ module.exports = {
   updateBook,
   deleteBook,
 };
+

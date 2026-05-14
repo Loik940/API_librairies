@@ -1,4 +1,4 @@
-﻿const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
 const protect = (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -6,7 +6,7 @@ const protect = (req, res, next) => {
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({
       success: false,
-      message: 'Acces non autorise',
+      message: 'Unauthorized access',
     });
   }
 
@@ -19,7 +19,7 @@ const protect = (req, res, next) => {
   } catch (error) {
     return res.status(401).json({
       success: false,
-      message: 'Token invalide ou expire',
+      message: 'Invalid or expired token',
     });
   }
 };
@@ -28,7 +28,7 @@ const authorizeRoles = (...roles) => (req, res, next) => {
   if (!req.user || !roles.includes(req.user.role)) {
     return res.status(403).json({
       success: false,
-      message: 'Acces interdit',
+      message: 'Forbidden access',
     });
   }
 
